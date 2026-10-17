@@ -1,0 +1,128 @@
+<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name=viewport content="width=device-width,initial-scale=1"><title>Majestic Flavors</title>
+<style>*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}body{background:#0f0f0f;color:#fff}
+.header{display:flex;justify-content:space-between;padding:12px;background:#000;position:sticky;top:0;z-index:99;border-bottom:1px solid #222}
+.logo{color:#F5B70A;font-style:italic;font-weight:700;font-size:20px}
+.cart-btn{background:#F5B70A;color:#000;border:none;padding:8px 16px;border-radius:10px;font-weight:700}
+.tabs{display:flex;gap:8px;padding:10px;background:#111;overflow-x:auto}
+.tab{background:#222;color:#fff;border:none;padding:8px 16px;border-radius:20px;white-space:nowrap}
+.tab.active{background:#F5B70A;color:#000}
+.hero{margin:12px;background:#1a1a1a;border-radius:16px;padding:20px;border:1px solid #333}
+.hero h1{color:#F5B70A;font-style:italic;font-size:38px}
+.btn{background:#F5B70A;color:#000;border:none;padding:12px 18px;border-radius:10px;font-weight:700;margin:5px;text-decoration:none;display:inline-block}
+.btn-green{background:#25D366;color:#fff;border:none;padding:12px 18px;border-radius:10px;font-weight:700;margin:5px;text-decoration:none;display:inline-block}
+.dish{display:flex;justify-content:space-between;background:#1e1e1e;padding:12px;margin:8px 12px;border-radius:10px;align-items:center}
+.add-btn{background:#F5B70A;border:none;width:32px;height:32px;border-radius:50%;font-weight:700;font-size:18px}
+.screen{display:none;padding-bottom:70px}.screen.active{display:block}
+.search{width:94%;margin:10px 3%;padding:10px;border-radius:8px;border:none;background:#222;color:#fff}
+.total-box{background:#1e1e1e;margin:12px;padding:12px;border-radius:10px}
+.checkout{background:#F5B70A;width:94%;margin:10px 3%;padding:14px;border:none;border-radius:10px;font-weight:700;font-size:16px}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#000;display:flex;justify-content:space-around;padding:10px 0;border-top:1px solid #222}
+.bottom-nav button{background:none;border:none;color:#888;font-size:12px;font-weight:600}
+.bottom-nav button.active{color:#F5B70A}
+.cart-item{display:flex;justify-content:space-between;background:#1e1e1e;padding:10px;margin:8px 12px;border-radius:10px}
+.qty button{width:26px;height:26px;background:#333;color:#fff;border:1px solid #444;border-radius:4px}
+</style></head><body>
+<div class=header><div class=logo>Majestic Flavors</div><button class=cart-btn onclick="show('cart')">Cart <span id=cartCount>0</span></button></div>
+<div class=tabs>
+<button class="tab active" onclick="show('home')">Home</button>
+<button class=tab onclick="show('menu')">Food Menu</button>
+<button class=tab onclick="show('cart')">Cart</button>
+<button class=tab onclick="show('sales')">Sales</button>
+<button class=tab onclick="show('manage')">Manage</button>
+</div>
+
+<div id=home class="screen active">
+<div class=hero><h4>FRESH FOOD GREAT MOOD</h4><h1>Majestic Flavors</h1><p>Beside Enjaz Bank, Bathaa, Riyadh<br>Delicious food, freshly made.</p><br>
+<button class=btn onclick="show('menu')">Explore Menu</button>
+<a class=btn-green href="https://wa.me/966573637251?text=Salam%20Order%20karna%20hai" target=_blank>WhatsApp Order</a></div>
+<div id=popular></div>
+</div>
+
+<div id=menu class=screen><input class=search id=searchBox placeholder="Search menu..." oninput=render()><div id=menuList></div></div>
+
+<div id=cart class=screen><div id=cartItems></div>
+<div class=total-box><div style=display:flex;justify-content:space-between><span>Subtotal</span><span id=subTotal>0 SAR</span></div><div style=display:flex;justify-content:space-between><span>Delivery Fee</span><span>3 SAR</span></div><div style=display:flex;justify-content:space-between;font-weight:700;border-top:1px solid #333;margin-top:6px;padding-top:6px><span>Total</span><span id=grandTotal>0 SAR</span></div></div>
+<button class=checkout onclick="checkout()">Checkout on WhatsApp</button></div>
+
+<div id=sales class=screen><div style=padding:15px><h3>Daily Sales Report</h3><br><div style=background:#1e1e1e;padding:15px;border-radius:10px;text-align:center><h2 style=color:#F5B70A id=salesAmount>0 SAR</h2><p>Total Sales Today</p><br><h2 style=color:#F5B70A id=ordersCount>0</h2><p>Total Orders</p><br><button class=btn onclick="resetSales()" style=background:#333;color:#fff>Reset to Zero</button></div><br><div style=background:#1e1e1e;padding:15px;border-radius:10px><b>Top Selling</b><br><br>1. Chicken Karahi - 0<br>2. Mutton Karahi - 0<br>3. Tandoori Roti - 0</div></div></div>
+
+<div id=manage class=screen><div style=padding:15px><b>Hotel Management - Majestic Flavors</b><br><small>Owner / Manager</small></div>
+<div class=dish>Restaurant Settings <span>></span></div>
+<div class=dish>Menu Management <span>></span></div>
+<div class=dish>Orders <span>></span></div>
+<div class=dish>Daily Sales Report <span>></span></div>
+<div style=margin:15px;background:#1e1e1e;padding:12px;border-radius:10px><h4>Add New Dish</h4><br><input id=newName placeholder="Dish Name" class=search><input id=newPrice placeholder="Price SAR" type=number step="0.1" class=search><button class=btn style=width:100% onclick=addDish()>Add Dish</button></div>
+</div>
+
+<div class=bottom-nav>
+<button class=active onclick="show('home')">Home</button>
+<button onclick="show('menu')">Menu</button>
+<button onclick="show('cart')">Cart</button>
+<button onclick="show('sales')">Report</button>
+<button onclick="show('manage')">Profile</button>
+</div>
+
+<script>
+let dishes=[
+{name:"Hyderabadi Biryani",price:16,desc:"FREE 1 Kinza + 1 Kheer"},
+{name:"Kabili Pulaw",price:18,desc:"FREE 1 Kinza + 1 Kheer"},
+{name:"Chicken Karahi FULL",price:55,desc:"4 Kinza + 4 Kheer + 8 Roti"},
+{name:"Half Chicken Karahi",price:30,desc:"2 Kinza + 2 Kheer + 4 Roti"},
+{name:"Tandoori Roti",price:0.5,desc:"Traditional tandoori roti"},
+{name:"Naan",price:1,desc:"Soft and fresh naan"},
+{name:"Roghni Naan",price:2,desc:"Roghni roti - Rich and buttery"},
+{name:"Tandoori Paratha",price:2,desc:"Crispy tandoori paratha"},
+{name:"Aloo Paratha",price:3,desc:"Stuffed aloo paratha"},
+{name:"Chicken Karahi",price:75,desc:"Special chicken karahi"},
+{name:"Mutton Karahi",price:95,desc:"Special mutton karahi"},
+{name:"Chicken 65",price:20,desc:"Spicy chicken 65"}
+];
+let cart=[];
+let totalSales=0;
+let totalOrders=0;
+function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');}
+function render(){
+let q=document.getElementById('searchBox')?.value.toLowerCase()||"";
+let list=document.getElementById('menuList');let pop=document.getElementById('popular');list.innerHTML="";pop.innerHTML="";
+dishes.filter(d=>d.name.toLowerCase().includes(q)).forEach((d)=>{
+let idx=dishes.indexOf(d);
+let div=`<div class=dish><div><b>${d.name}</b><br><small style=color:#aaa>${d.desc} - ${d.price} SAR</small></div><div><button class=add-btn onclick="addCart(${idx})">+</button></div></div>`;
+list.innerHTML+=div;
+if(dishes.indexOf(d)<5) pop.innerHTML+=div;
+});
+}
+function addCart(i){let e=cart.find(c=>c.i===i);if(e) e.q++; else cart.push({i,q:1});updateCart();}
+function updateCart(){
+document.getElementById('cartCount').textContent=cart.reduce((a,b)=>a+b.q,0);
+let c=document.getElementById('cartItems');c.innerHTML="";let sub=0;
+cart.forEach(it=>{let d=dishes[it.i];sub+=d.price*it.q;
+c.innerHTML+=`<div class=cart-item><div><b>${d.name}</b><br><small>${d.price} SAR</small></div><div class=qty><button onclick="chg(${it.i},-1)">-</button> ${it.q} <button onclick="chg(${it.i},1)">+</button></div><button onclick="rem(${it.i})" style="background:none;border:none;color:#888">DEL</button></div>`;});
+if(cart.length==0) c.innerHTML="<p style=text-align:center;color:#888;padding:30px>Cart empty<br>Add some food!</p>";
+document.getElementById('subTotal').textContent=sub.toFixed(2)+" SAR";
+document.getElementById('grandTotal').textContent=(sub+(cart.length?3:0)).toFixed(2)+" SAR";
+}
+function chg(i,d){let it=cart.find(c=>c.i===i);if(!it)return;it.q+=d;if(it.q<=0) cart=cart.filter(c=>c.i!==i);updateCart();}
+function rem(i){cart=cart.filter(c=>c.i!==i);updateCart();}
+function checkout(){
+if(cart.length==0){alert('Cart empty!');return;}
+let sub=cart.reduce((s,c)=>s+dishes[c.i].price*c.q,0);
+let total=sub+3;
+totalSales+=total;
+totalOrders+=1;
+document.getElementById('salesAmount').textContent=totalSales.toFixed(2)+" SAR";
+document.getElementById('ordersCount').textContent=totalOrders;
+let msg="Salam Majestic Flavors!%0ANew Order:%0A";
+cart.forEach(c=>{let d=dishes[c.i];msg+=`- ${d.name} x${c.q} = ${(d.price*c.q).toFixed(2)} SAR%0A`;});
+msg+=`%0ADelivery: 3 SAR%0ATotal: ${total.toFixed(2)} SAR%0ABathaa, Riyadh`;
+window.open("https://wa.me/966573637251?text="+msg,"_blank");
+cart=[];updateCart();show('home');
+}
+function resetSales(){totalSales=0;totalOrders=0;document.getElementById('salesAmount').textContent="0 SAR";document.getElementById('ordersCount').textContent="0";alert('Sales reset to zero!');}
+function addDish(){
+let n=document.getElementById('newName').value;let p=parseFloat(document.getElementById('newPrice').value);
+if(!n||!p){alert('Enter name & price');return;}
+dishes.push({name:n,price:p,desc:"New dish"});render();alert('Added!');
+document.getElementById('newName').value="";document.getElementById('newPrice').value="";
+}
+render();updateCart();
+</script></body></html>
