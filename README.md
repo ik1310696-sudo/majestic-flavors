@@ -21,4 +21,4 @@
 <div class="box"><span>Dal Mash Bara</span><b>7 / 4 SAR</b></div>
 <div class="box"><span>Kinza Can - FREE</span><b style="color:green">FREE</b></div>
 <a class="w" href="https://wa.me/966573637251">WhatsApp Order - 057 363 7251</a>
-</div></body></html>
+</div>
