@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Irfan Game - Ultimate GTA Riyadh</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial Black,Arial;touch-action:none}
+body{background:#000;overflow:hidden;color:#fff}
+#game{width:100vw;height:100vh;background:radial-gradient(#0a1a0a,#000);position:relative;overflow:hidden}
+#city{position:absolute;width:400%;height:400%;background:
+linear-gradient(#1a1a1a 1px,transparent 1px),linear-gradient(90deg,#1a1a1a 1px,transparent 1px),
+#0a0a0a;background-size:60px 60px,60px 60px,100% 100%;left:-150%;top:-150%}
+
+.car{position:absolute;border-radius:8px;border:2px solid #000;z-index:4;box-shadow:0 4px 12px rgba(0,0,0,0.8),0 0 15px rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;font-weight:900;color:#000;transition:0.1s}
+.lambo{width:52px;height:24px;background:linear-gradient(90deg,#ffcc00,#ff9900);font-size:9px;box-shadow:0 0 20px #ffcc00}
+.bugatti{width:56px;height:26px;background:linear-gradient(90deg,#0066ff,#00ccff);font-size:9px;box-shadow:0 0 20px #0066ff}
+.bmw{width:50px;height:24px;background:linear-gradient(90deg,#fff,#aaa);font-size:9px;box-shadow:0 0 15px #fff}
+.ferrari{width:54px;height:25px;background:linear-gradient(90deg,#ff0000,#cc0000);font-size:9px;box-shadow:0 0 20px #ff0000;color:#fff}
+.gwagon{width:48px;height:26px;background:linear-gradient(90deg,#222,#000);color:#fff;font-size:8px;box-shadow:0 0 15px #555}
+.bike{width:36px;height:16px;border-radius:12px;font-size:14px}
+.hayabusa{background:linear-gradient(90deg,#ff6600,#ff0000);box-shadow:0 0 15px #ff6600}
+.ducati{background:linear-gradient(90deg,#cc0000,#ff0000);box-shadow:0 0 15px #f00;color:#fff}
+
+#player{position:absolute;width:18px;height:22px;border:2px solid #000;border-radius:4px 4px 2px 2px;z-index:10;left:50%;top:50%;transform:translate(-50%,-50%);box-shadow:0 3px 8px #000}
+.costume1{background:linear-gradient(#111,#333);color:#F5B70A} /* IRFAN */
+.costume2{background:linear-gradient(#0000aa,#000055);color:#fff} /* POLICE */
+.costume3{background:linear-gradient(#2d5016,#1a3009);color:#0f0} /* ARMY */
+.costume4{background:linear-gradient(#222,#000);color:#fff} /* GANGSTER */
+
+#ui{position:absolute;top:0;left:0;right:0;padding:10px;display:flex;justify-content:space-between;z-index:20;background:linear-gradient(180deg,rgba(0,0,0,0.9),transparent);pointer-events:none;font-size:11px}
+#minimap{position:absolute;top:10px;left:10px;width:80px;height:80px;background:rgba(0,0,0,0.7);border:1.5px solid #fff;border-radius:6px;z-index:15;overflow:hidden;box-shadow:0 0 10px #000}
+#controls{position:absolute;bottom:8px;left:0;right:0;display:flex;justify-content:space-between;padding:0 8px;z-index:20;align-items:end}
+.joy{width:90px;height:90px;background:radial-gradient(rgba(255,255,255,0.15),rgba(0,0,0,0.3));border-radius:50%;border:2px solid rgba(245,183,10,0.6);position:relative;box-shadow:0 0 12px rgba(245,183,10,0.3)}
+#stick{width:36px;height:36px;background:radial-gradient(#F5B70A,#ff8c00);border-radius:50%;position:absolute;top:27px;left:27px;border:2px solid #fff;box-shadow:0 0 10px #F5B70A}
+.btns{display:flex;gap:5px;align-items:end;flex-wrap:wrap;justify-content:end;max-width:220px}
+.cbtn{width:48px;height:48px;background:radial-gradient(rgba(255,255,255,0.2),rgba(0,0,0,0.5));border:1.5px solid rgba(255,255,255,0.6);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:900;box-shadow:0 2px 8px #000}
+#enter{width:64px;height:64px;background:radial-gradient(#F5B70A,#ff8c00);border:2.5px solid #fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;color:#000;font-size:10px;box-shadow:0 0 15px #F5B70A}
+#shoot{width:60px;height:60px;background:radial-gradient(#ff3333,#880000);border:2.5px solid #fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:9px;box-shadow:0 0 12px #f00}
+#musicBtn.active{background:#0f0!important}
+#costumeBtn{background:linear-gradient(45deg,#F5B70A,#ff00ff)}
+#start{position:absolute;top:0;left:0;width:100%;height:100%;background:linear-gradient(180deg,rgba(0,0,0,0.95),rgba(30,0,60,0.95));display:flex;flex-direction:column;justify-content:center;align-items:center;z-index:30;text-align:center;padding:15px;overflow-y:auto}
+.btn{background:linear-gradient(90deg,#F5B70A,#ff8c00);color:#000;border:none;padding:12px 25px;border-radius:25px;font-weight:900;font-size:16px;margin:5px;box-shadow:0 4px 15px rgba(245,183,10,0.5)}
+.carSelect{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin:8px 0}
+.carOpt{width:70px;padding:6px;background:#222;border:1.5px solid #555;border-radius:8px;font-size:9px;text-align:center;cursor:pointer}
+.carOpt.selected{border-color:#F5B70A;background:#332a00;box-shadow:0 0 10px #F5B70A}
+</style>
+</head>
+<body>
+<div id=game>
+<div id=city></div>
+
+<div id=ui>
+<div><div style=color:#F5B70A;font-weight:900;letter-spacing:1px>IRFAN GAME</div><div style=font-size:16px;font-weight:900>GTA RIYADH ULTIMATE</div><div>💰 $<span id=money>0</span> | 🚗 <span id=speed>0</span> KM | 🔫 <span id=ammo>30</span></div></div>
+<div style=text-align:right><div>👕 <span id=costumeName>IRFAN</span></div><div id=carName>ON FOOT</div><div style
