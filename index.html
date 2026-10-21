@@ -1,0 +1,199 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Asad Khan | Luxury Hotel Menu</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#101010;color:#fff;
+font-family:Arial,sans-serif}
+header{text-align:center;padding:35px 15px;
+background:linear-gradient(135deg,#111,#392a13);
+border-bottom:2px solid #c9a45c}
+.logo{font-size:13px;letter-spacing:5px;color:#d8b76b}
+h1{font-family:Georgia,serif;font-size:36px;
+color:#e6c779;margin:12px 0}
+header p{color:#ddd}
+.container{max-width:900px;margin:auto;padding:18px}
+h2{color:#e6c779;font-family:Georgia,serif}
+.search{width:100%;padding:14px;border-radius:8px;
+border:1px solid #c9a45c;background:#202020;color:white;
+font-size:16px;margin:10px 0 20px}
+.categories{display:flex;gap:8px;overflow:auto;
+padding-bottom:15px}
+.categories button{white-space:nowrap;background:#222;
+color:#e6c779;border:1px solid #a98948;
+border-radius:20px;padding:10px 15px}
+.categories button:active{background:#c9a45c;color:#111}
+.menu{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.item{background:#1c1c1c;border:1px solid #393124;
+border-radius:12px;overflow:hidden}
+.item img{width:100%;height:135px;object-fit:cover}
+.info{padding:12px}
+.info h3{font-size:17px;margin:0 0 8px}
+.info p{color:#bbb;font-size:13px;min-height:30px}
+.price{color:#e6c779;font-weight:bold;font-size:17px}
+.add{width:100%;margin-top:10px;padding:10px;
+border:0;border-radius:6px;background:#c9a45c;
+color:#111;font-weight:bold}
+.order{display:block;text-align:center;
+background:#168b50;color:white;text-decoration:none;
+padding:15px;border-radius:8px;margin:22px 0;
+font-weight:bold}
+footer{text-align:center;color:#aaa;padding:25px;
+border-top:1px solid #333;font-size:13px}
+@media(max-width:380px){
+.menu{grid-template-columns:1fr}
+.item img{height:180px}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">FIVE STAR HOTEL</div>
+  <h1>ASAD KHAN</h1>
+  <p>Luxury Dining • Delicious Food • Great Service</p>
+  <p>OUR MENU | قائمة الطعام</p>
+</header>
+
+<main class="container">
+  <h2>Explore Our Menu</h2>
+  <input class="search" id="search"
+  placeholder="Search food... / Khana dhoondo">
+
+  <div class="categories">
+    <button onclick="showCategory('All')">All</button>
+    <button onclick="showCategory('Breakfast')">Breakfast</button>
+    <button onclick="showCategory('Main Course')">Main Course</button>
+    <button onclick="showCategory('BBQ')">BBQ</button>
+    <button onclick="showCategory('Drinks')">Drinks</button>
+    <button onclick="showCategory('Desserts')">Desserts</button>
+  </div>
+
+  <div class="menu" id="menu"></div>
+
+  <h2>Your Order</h2>
+  <div id="cart">Your cart is empty.</div>
+  <a class="order" id="whatsapp" href="#" onclick="return sendOrder()">
+    Order on WhatsApp
+  </a>
+  <p style="color:#aaa;font-size:12px">
+    Prices are in Saudi Riyals (SAR). Please confirm your order.
+  </p>
+</main>
+
+<footer>
+  <strong>ASAD KHAN</strong><br>
+  Five Star Hotel · Thank you for visiting us
+</footer>
+
+<script>
+// Apne hotel ke asli menu aur prices yahan add karein.
+const foods = [
+ {name:"Chicken Biryani",cat:"Main Course",price:25,
+  desc:"Aromatic rice with chicken",
+  img:"https://images.unsplash.com/photo-1563379091339-03246963d96c?w=600"},
+ {name:"Mutton Karahi",cat:"Main Course",price:65,
+  desc:"Traditional spicy mutton karahi",
+  img:"https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?w=600"},
+ {name:"Chicken BBQ",cat:"BBQ",price:30,
+  desc:"Grilled chicken with spices",
+  img:"https://images.unsplash.com/photo-1532550907401-a500c9a57435?w=600"},
+ {name:"Beef Burger",cat:"Main Course",price:22,
+  desc:"Juicy burger with fresh toppings",
+  img:"https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=600"},
+ {name:"Club Sandwich",cat:"Breakfast",price:18,
+  desc:"Fresh sandwich served with fries",
+  img:"https://images.unsplash.com/photo-1521390188846-e2a3a97453a0?w=600"},
+ {name:"Fresh Juice",cat:"Drinks",price:12,
+  desc:"Refreshing fruit juice",
+  img:"https://images.unsplash.com/photo-1613478223719-2ab802602423?w=600"},
+ {name:"Chocolate Cake",cat:"Desserts",price:15,
+  desc:"Rich chocolate dessert",
+  img:"https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=600"},
+ {name:"Grilled Fish",cat:"Main Course",price:40,
+  desc:"Grilled fish with herbs",
+  img:"https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?w=600"}
+];
+
+let category = "All";
+let cart = [];
+
+function render(){
+ const q = document.getElementById("search").value.toLowerCase();
+ const list = foods.filter(f =>
+   (category === "All" || f.cat === category) &&
+   f.name.toLowerCase().includes(q)
+ );
+ document.getElementById("menu").innerHTML = list.map(f => `
+  <article class="item">
+   <img src="${f.img}" alt="${f.name}" loading="lazy">
+   <div class="info">
+    <h3>${f.name}</h3>
+    <p>${f.desc}</p>
+    <div class="price">${f.price} SAR</div>
+    <button class="add" onclick="addItem('${f.name}')">
+      + Add to Order
+    </button>
+   </div>
+  </article>
+ `).join("");
+ if(!list.length) document.getElementById("menu").innerHTML =
+   "<p>No food found.</p>";
+}
+
+function showCategory(c){
+ category = c;
+ render();
+}
+
+function addItem(name){
+ const food = foods.find(f => f.name === name);
+ const existing = cart.find(i => i.name === name);
+ if(existing) existing.qty++;
+ else cart.push({...food,qty:1});
+ updateCart();
+}
+
+function updateCart(){
+ const total = cart.reduce((s,i)=>s+i.price*i.qty,0);
+ document.getElementById("cart").innerHTML = cart.length
+ ? cart.map(i=>`
+   <p>${i.name} × ${i.qty} — ${i.price*i.qty} SAR
+   <button onclick="removeItem('${i.name}')">Remove</button></p>
+ `).join("") + `<h3>Total: ${total} SAR</h3>`
+ : "Your cart is empty.";
+}
+
+function removeItem(name){
+ cart = cart.filter(i=>i.name!==name);
+ updateCart();
+}
+
+function sendOrder(){
+ if(!cart.length){
+   alert("Please add food to your order first.");
+   return false;
+ }
+ // 966 ke baad apna WhatsApp number likhein, bina + ke.
+ const phone = "9665XXXXXXXX";
+ if(phone.includes("X")){
+   alert("Code mein apna WhatsApp number add karein.");
+   return false;
+ }
+ const total = cart.reduce((s,i)=>s+i.price*i.qty,0);
+ const message = "Assad Khan Hotel Order%0A" +
+   cart.map(i=>`${i.name} x ${i.qty} = ${i.price*i.qty} SAR`).join("%0A") +
+   `%0ATotal: ${total} SAR`;
+ window.open("https://wa.me/"+phone+"?text="+message,"_blank");
+ return false;
+}
+
+document.getElementById("search").addEventListener("input",render);
+render();
+</script>
+</body>
+</html>
